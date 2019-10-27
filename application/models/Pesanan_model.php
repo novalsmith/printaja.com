@@ -19,14 +19,14 @@ class Pesanan_model extends CI_Model
     function json()
     {
         $this->datatables->select('
-        idpesanan,name, 
+        idpesanan,name, idpesananduplicate,
         pesanan.status, 
         sum(qty)as qty,sum(total)as total,bworcolor, datafilecetak,keterangan, fileprint
         ');
         $this->datatables->from('pesanan');
         $this->datatables->join('kategori', 'kategori.idkategori = pesanan.idkategori');
         $this->datatables->join('orders', 'orders.idorder = pesanan.idorder');
-        $this->datatables->group_by('name');
+        $this->datatables->group_by('idpesananduplicate');
 
         $this->datatables->add_column('action', '
  		<a href="javascript:void(0);" class="view_pesanan  label label-sm label-info" data-code="$1" ><i class="fa fa-eye"></i> View</a>
@@ -38,7 +38,22 @@ class Pesanan_model extends CI_Model
     function get_all($id)
     {
         $this->db->select('
-        idpesanan,name,phone,email,dateorder,datefinish,
+        idpesanan,name,phone,email,dateorder,datefinish,idpesananduplicate,
+        pesanan.status,nama_kategori,hargaBW,hargaColor,hargajilid,
+        qty,total,bworcolor, datafilecetak,keterangan, fileprint,phone
+        ');
+
+        $this->db->from('pesanan');
+        $this->db->join('kategori', 'kategori.idkategori = pesanan.idkategori', 'left');
+        $this->db->join('orders', 'orders.idorder = pesanan.idorder', 'left');
+        $this->db->where("idpesanan", $id);
+        return $this->db->get();
+    }
+
+    function get_all_All($id)
+    {
+        $this->db->select('
+        idpesanan,name,phone,email,dateorder,datefinish,idpesananduplicate,
         pesanan.status,nama_kategori,hargaBW,hargaColor,hargajilid,
         qty,total,bworcolor, datafilecetak,keterangan, fileprint,phone
         ');

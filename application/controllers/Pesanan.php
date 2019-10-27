@@ -43,6 +43,7 @@ class Pesanan extends CI_Controller
         // header('Content-Type: application/json');
         $data = $this->Pesanan_model->get_all($id)->row();
         $array = array(
+            'idpesananduplicate' => $data->idpesananduplicate,
             'idpesanan' => $data->idpesanan,
             'nama' => $data->name,
             'email' => $data->email,
@@ -63,7 +64,7 @@ class Pesanan extends CI_Controller
     public function jsonPesananAll($id)
     {
         // header('Content-Type: application/json');
-        $data = $this->Pesanan_model->get_all($id)->result();
+        $data = $this->Pesanan_model->get_all_All($id)->result();
 
         echo  json_encode($data);
     }

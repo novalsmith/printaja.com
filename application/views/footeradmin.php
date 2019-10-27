@@ -286,6 +286,8 @@
  						var datastatus = "";
  						if (status == 1) {
  							datastatus = "<p class='label label-sm label-success'>Selesai</p>";
+ 						} else if (status == 2) {
+ 							datastatus = "<p class='label label-sm label-danger'>Sudah diambil</p>";
  						} else {
 
  							datastatus = "<p class='label label-sm label-warning'>Belum</p>";
@@ -590,96 +592,108 @@
  				type: "GET",
  				dataType: "JSON",
  				success: function(data) {
- 					// console.log(data);
+ 					console.log(data);
  					$('#myModalLabelc').text('Detail Pemesanan');
  					$('#Nama').text(data.nama);
  					$('#Email').text(data.email);
  					$('#tlp').text(data.phone);
- 					$('#idpesanan').text(data.idpesanan);
+ 					$('#idpesanan').text(data.idpesananduplicate);
  					$('#tglpesan').text(data.dateorder);
  					$('#tglambil').text(data.datefinish);
  					if (data.status == 0) {
+ 						$('#statuspesanan').removeClass("label label-danger");
+ 						$('#statuspesanan').removeClass("label label-success");
  						$('#statuspesanan').addClass("label label-warning");
  						$('#statuspesanan').text("Belum Selesai");
  						$("#statuspesanandetil").val(0);
-
-
- 						// set table detail pesanan
- 						$.ajax({
- 							url: "<?php echo site_url('pesanan/jsonPesananAll/') ?>" + id,
- 							type: "GET",
- 							dataType: "JSON",
- 							success: function(data) {
- 								var kolom = '';
- 								var totals = 0;
- 								var tmp = [];
- 								// $("#table").append("<tr><td>A4</td><td>1000</td><td>warna</td><td>5</td><td>Rp.5000</td></tr>");
- 								$.each(data, function(key, value) {
- 									// console.log(key + ": " + value["name"]);
- 									kolom += '<tr>';
- 									kolom += '<td>' + value["nama_kategori"] + '</td>';
-
- 									if (value['bworcolor'] == 1) {
- 										kolom += '<td>Hitam Putih</td>';
- 									} else if (value['bworcolor'] == 2) {
- 										kolom += '<td>Warna</td>';
- 									} else {
- 										kolom += '<td>Jilid</td>';
- 									}
-
-
-
- 									if (value['bworcolor'] == 1) {
- 										kolom += '<td>Rp.' + value["hargaBW"] + '</td>';
- 										totals = value['hargaBW'] * value['qty']
- 									} else if (value['bworcolor'] == 2) {
-
- 										kolom += '<td>Rp.' + value["hargaColor"] + '</td>';
- 										totals = value['hargaColor'] * value['qty']
- 									} else {
-
- 										kolom += '<td>Rp.' + value["hargajilid"] + '</td>';
- 										totals = value['hargajilid'] * value['qty']
- 									}
-
- 									kolom += '<td>' + value["qty"] + '</td>';
- 									kolom += '<td id="alltotal">Rp.' + totals + '</td>';
-
- 									kolom += '</tr>';
-
-
-
- 								});
- 								$("#table").append(kolom);
-
-
- 								$.ajax({
- 									url: "<?php echo site_url('pesanan/jsonPesananCount/') ?>" + id,
- 									type: "GET",
- 									dataType: "JSON",
- 									success: function(data) {
- 										$('#totalsemua').text(' Rp.' + data.total);
- 									}
-
- 								});
- 							}
-
-
- 							// set table detail pesanan
-
-
-
- 						});
-
-
-
-
-
+ 					} else if (data.status == 2) {
+ 						$('#statuspesanan').removeClass("label label-success");
+ 						$('#statuspesanan').removeClass("label label-warning");
+ 						$('#statuspesanan').addClass("label label-danger");
+ 						$('#statuspesanan').text("Sudah diambil");
+ 						$("#statuspesanandetil").val(2);
  					} else {
+ 						$('#statuspesanan').removeClass("label label-warning");
+ 						$('#statuspesanan').removeClass("label label-danger");
  						$('#statuspesanan').addClass("label label-success");
+
  						$('#statuspesanan').text("Selesai");
  						$("#statuspesanandetil").val(1);
  					}
+ 					console.log(data.idpesananduplicate);
+ 					// set table detail pesanan
+ 					$.ajax({
+ 						url: "<?php echo site_url('pesanan/jsonPesananAll/') ?>" + data.idpesananduplicate,
+ 						type: "GET",
+ 						dataType: "JSON",
+ 						success: function(data) {
+ 							console.log(data);
+ 							var kolom = '';
+ 							var totals = 0;
+ 							var tmp = [];
+ 							// $("#table").append("<tr><td>A4</td><td>1000</td><td>warna</td><td>5</td><td>Rp.5000</td></tr>");
+ 							$.each(data, function(key, value) {
+ 								// console.log(key + ": " + value["name"]);
+ 								kolom += '<tr>';
+ 								kolom += '<td>' + value["nama_kategori"] + '</td>';
+
+ 								if (value['bworcolor'] == 1) {
+ 									kolom += '<td>Hitam Putih</td>';
+ 								} else if (value['bworcolor'] == 2) {
+ 									kolom += '<td>Warna</td>';
+ 								} else {
+ 									kolom += '<td>Jilid</td>';
+ 								}
+
+
+
+ 								if (value['bworcolor'] == 1) {
+ 									kolom += '<td>Rp.' + value["hargaBW"] + '</td>';
+ 									totals = value['hargaBW'] * value['qty']
+ 								} else if (value['bworcolor'] == 2) {
+
+ 									kolom += '<td>Rp.' + value["hargaColor"] + '</td>';
+ 									totals = value['hargaColor'] * value['qty']
+ 								} else {
+
+ 									kolom += '<td>Rp.' + value["hargajilid"] + '</td>';
+ 									totals = value['hargajilid'] * value['qty']
+ 								}
+
+ 								kolom += '<td>' + value["qty"] + '</td>';
+ 								kolom += '<td id="alltotal">Rp.' + totals + '</td>';
+
+ 								kolom += '</tr>';
+
+
+
+ 							});
+ 							$("#table").append(kolom);
+
+
+ 							$.ajax({
+ 								url: "<?php echo site_url('pesanan/jsonPesananCount/') ?>" + data[0].idpesananduplicate,
+ 								type: "GET",
+ 								dataType: "JSON",
+ 								success: function(data) {
+ 									$('#totalsemua').text(' Rp.' + data.total);
+ 								}
+
+ 							});
+ 						}
+
+
+ 						// set table detail pesanan
+
+
+
+ 					});
+
+
+
+
+
+
 
 
  					$('#modal_form_view_pesanan').modal({
@@ -1113,12 +1127,21 @@
  					})
 
  					if (data.status == 0) {
+ 						$('#statuspesanan').removeClass("label label-danger");
  						$('#statuspesanan').removeClass("label label-success");
  						$('#statuspesanan').addClass("label label-warning");
  						$('#statuspesanan').text("Belum Selesai");
  						$("#statuspesanandetil").val(0);
+ 					} else if (data.status == 2) {
+ 						$('#statuspesanan').removeClass("label label-success");
+ 						$('#statuspesanan').removeClass("label label-warning");
+ 						$('#statuspesanan').addClass("label label-danger");
+ 						$('#statuspesanan').text("Sudah diambil");
+ 						$("#statuspesanandetil").val(2);
+
  					} else {
  						$('#statuspesanan').removeClass("label label-warning");
+ 						$('#statuspesanan').removeClass("label label-danger");
  						$('#statuspesanan').addClass("label label-success");
  						$('#statuspesanan').text("Selesai");
  						$("#statuspesanandetil").val(1);

@@ -611,6 +611,7 @@
 
                                      <option value="1">Selesai</option>
                                      <option value="0">Belum Selesai</option>
+                                     <option value="2">Sudah diambil</option>
                                  </select>
 
                              </div>
