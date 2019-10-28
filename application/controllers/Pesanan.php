@@ -98,6 +98,70 @@ class Pesanan extends CI_Controller
         }
     }
 
+    private function AutonumberPrint(){
+        $number = "";
+        $data = $this->db->query("select max(idpesanan) as getmax from pesanan")->row();
+       
+        if($data->getmax < 1){
+            $number = "Printaja1".date("My");
+        }else{
+            $number = "Printaja".$data->getmax.date("My");
+        }
+        return  $number;
+    }
+
+    private function _uploadImage()
+    {
+        $config['upload_path']          = './assets/img/small';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['file_name']            = 'printaja_' . date('dMy H i s');
+        $config['overwrite']            = true;
+        // $config['max_size']             = 1024; // 1MB
+        // $config['max_width']            = 1024;
+        // $config['max_height']           = 768;
+
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('image') == "") {
+            return null;
+        } else {
+            return $this->upload->data("file_name");
+        }
+    }
+
+
+    public function create_action()
+    {
+
+        $tglambil = $this->input->post('tglambil');
+        $jamambil = $this->input->post('jamambil');
+
+
+        $simpan = array(
+            'idpesananduplicate' => $this->AutonumberPrint(),
+            'idorder' => $this->input->post('idorder'),
+            'dateorder' => $tglambil." ".$jamambil,
+            // 'datefinish' => ,
+            'status' => 0,
+            'idkategori' => $this->input->post('idkategori'),
+            'qty' => $this->input->post('qty'),
+            'bworcolor' => $this->input->post('bworcolor'),
+            'total' => $this->input->post('total'),
+            'keterangan' => $this->input->post('keterangan'),
+            'fileprint' => $this->_uploadImage(),
+            
+
+           
+        );
+        // unlink('./assets/img/thumb/'. $gbr['file_name']);
+
+        $this->db->insert('pesanan',$simpan); //kirim value ke model m_upload
+        echo json_encode(array(
+            'autonumber' => $this->AutonumberPrint(),
+            'pesan' => "Berhasil Tersimpan",
+            'status' => TRUE
+        ));
+    }
 
     public function excel()
     {

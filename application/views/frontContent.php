@@ -33,7 +33,7 @@
                                      <a class="page-scroll" href="#home">Home</a>
                                  </li>
 
-                                 <li>
+                                 <li id="printonline">
                                      <a class="label label-primary" href="#" data-toggle="modal" data-target="#myModalPrint"> Print
                                          Online
                                      </a>
@@ -42,15 +42,15 @@
                                      <a class="page-scroll" href="#" data-toggle="modal" data-target="#myModalCekStatus">Cek Status</a>
                                  </li>
 
-                                 <li>
+                                 <li id="contact">
                                      <a class="page-scroll" href="#" data-toggle="modal" data-target="#myModalContact">Contact</a>
                                  </li>
 
-                                 <li>
+                                 <li id="about">
                                      <a class="page-scroll" href="#" data-toggle="modal" data-target="#myModalabout">About</a>
                                  </li>
 
-                                 <li>
+                                 <li id="bantuan">
                                      <a class="page-scroll" href="#" data-toggle="modal" data-target="#myModalfaq">Bantuan ?</a>
                                  </li>
 

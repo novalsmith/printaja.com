@@ -29,7 +29,7 @@
  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
  <!-- Include jQuery Validator plugin -->
  <script type="text/javascript">
-   $(document).ready(function() {
+   $('#contact').click(function() {
 
      $.ajax({
        url: "<?php echo site_url('contact/jsonContact') ?>",
@@ -41,7 +41,9 @@
 
        }
      });
+   });
 
+   $('#about').click(function() {
      $.ajax({
        url: "<?php echo site_url('contact/jsonAbout') ?>",
        type: "GET",
@@ -52,40 +54,40 @@
 
        }
      });
+   });
+   $("#periksastatus").click(function() {
 
-     $("#periksastatus").click(function() {
+     var idpesanan = $("#cek").val();
+     if (idpesanan == "") {
+       $("#pesanstatus").text("* Anda belum memasukan Kode Printmu.");
+     } else {
+       $("#pesanstatus").text("");
 
-       var idpesanan = $("#cek").val();
-       if (idpesanan == "") {
-         $("#pesanstatus").text("* Anda belum memasukan Kode Printmu.");
-       } else {
-         $("#pesanstatus").text("");
-
-         $.ajax({
-           url: "<?php echo site_url('contact/JsonCekstatus/') ?>" + idpesanan,
-           type: "GET",
-           dataType: "JSON",
-           success: function(data) {
+       $.ajax({
+         url: "<?php echo site_url('contact/JsonCekstatus/') ?>" + idpesanan,
+         type: "GET",
+         dataType: "JSON",
+         success: function(data) {
 
 
-             if (data.status == 1) {
-               $('#hasil').html("<h4 class='alert alert-success'> <span class='fa fa-check'></span> Selamat, hasil printmu sudah selesai dan bisa di ambil. Terimakasih atas kepercayaan anda, Sukses selalu </h4>");
+           if (data.status == 1) {
+             $('#hasil').html("<h4 class='alert alert-success'> <span class='fa fa-check'></span> Selamat, hasil printmu sudah selesai dan bisa di ambil. Terimakasih atas kepercayaan anda, Sukses selalu </h4>");
 
-             } else if (data.status == 0) {
-               $('#hasil').html("<h4 class='alert alert-warning'> <span class='fa fa-info'></span> Pesanan Printmu masih dalam proses pengerjaan, silahkan kontak petugas jika sudah melebihi waktu  </h4>");
+           } else if (data.status == 0) {
+             $('#hasil').html("<h4 class='alert alert-warning'> <span class='fa fa-info'></span> Pesanan Printmu masih dalam proses pengerjaan, silahkan kontak petugas jika sudah melebihi waktu  </h4>");
 
-             } else {
-               $('#hasil').html("<h4 class='alert alert-danger'> <span class='fa fa-warning'></span> Kode Printmu tidak ditemukan, periksa lagi atau hubungi petugas Printmu</h4>");
-
-             }
-
+           } else {
+             $('#hasil').html("<h4 class='alert alert-danger'> <span class='fa fa-warning'></span> Kode Printmu tidak ditemukan, periksa lagi atau hubungi petugas Printmu</h4>");
 
            }
-         });
-       }
-     });
 
 
+         }
+       });
+     }
+   });
+
+   $('#bantuan').click(function() {
      $.ajax({
        url: "<?php echo site_url('contact/jsonBantuanGetAll') ?>",
        type: "GET",
@@ -113,12 +115,9 @@
 
        }
      });
+   });
 
-
-
-
-
-
+   $('#printonline').click(function() {
      $.ajax({
        url: "<?php echo site_url('contact/JsonFitur') ?>",
        type: "GET",
@@ -149,7 +148,50 @@
 
 
      });
+   });
 
+
+   $('#formpesanan').submit(function(e) {
+     var warna = $('#warna').val();
+     var hitamputih = $('#hitamputih').val();
+     var tglambil = $('#tglambil').val();
+     var jamambil = $('#jamambil').val();
+     var desc = $('#desc').val();
+     var setidkategori = $('#setidkategori').val();
+
+     var ambilsendiri = $('#ambilsendiri').val();
+     console.log(warna);
+     console.log(hitamputih);
+     console.log(tglambil);
+     console.log(jamambil);
+     console.log(desc);
+     console.log(ambilsendiri);
+     var data = new FormData(this);
+     data.append('idorder', 1);
+     data.append('tglambil', tglambil);
+     data.append('jamambil', jamambil);
+     data.append('setidkategori', setidkategori);
+     data.append('qty', warna + hitamputih);
+     data.append('warna', warna);
+     data.append('hitamputih', hitamputih);
+     data.append('total', total);
+     data.append('keterangan', keterangan);
+     data.append('fileprint', fileprint);
+
+
+     var url = "<?php echo site_url('pesanan/create_action') ?>"
+
+     $.ajax({
+       url: url,
+       type: "post",
+       dataType: "json",
+       data: data,
+       processData: false,
+       contentType: false,
+       cache: false,
+       async: false,
+       success: function(data) {}
+     });
 
    });
 
@@ -166,6 +208,7 @@
        success: function(data) {
          //  console.log(data[0].nama_kategori);
          $('#juduldetilpesan').text(" Cetak " + data[0].nama_kategori);
+         $('#setidkategori').text(" Cetak " + data[0].nama_kategori);
          $('#namapemesan').text("Noval Smith");
          $('#nohp1').text("09812389023");
          $('#nohp2').text("1982370988");

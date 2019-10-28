@@ -168,7 +168,7 @@
                  <div class="modal-body">
                      <div class="row">
 
-                         <form action="">
+                         <form name="formpesanan" id="formpesanan" enctype="multipart/form-data" method="post">
                              <div class="col-md-7">
                                  <div class="form-group">
                                      <span>Nama :</span>
@@ -179,83 +179,97 @@
                                      <span id="nohp1"></span> | <span id="nohp2"></span>
                                  </div>
 
-                                 <div class="form-group">
-                                     <span>Jenis Print</span>
-                                     <select name="jenisprint" class="form-control" id="jenisprint">
-                                         <option value="">Pilih jenis print</option>
-                                         <option value="1">Warna</option>
-                                         <option value="2">Hitam Putih</option>
-                                         <option value="3">Warna + Hitam Putih</option>
-                                     </select>
-                                 </div>
-
 
 
                                  <div class="form-group">
-                                     <span>Counter Page</span>
-                                 </div>
-                                 <div class="col-md-4">
-                                     <div class="form-group">
-                                         <span>Warna</span>
-                                         <input type="number" class="form-control input-sm" name="" id="">
-                                     </div>
-                                 </div>
-                                 <div class="col-md-4">
-                                     <div class="form-group">
-                                         <span>Hitam Putih</span>
-                                         <input type="number" class="form-control input-sm" name="" id="">
-                                     </div>
-                                 </div>
-                                 <div class="col-md-12">
-                                     <div class="form-group">
-                                         <span>Warna + Hitam Putih</span>
-                                         <input type="number" class="form-control input-sm" name="" id="">
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="col-md-5">
-                                 <div class="col-md-12">
-                                     <div class="form-group">
-                                         <span>Praise</span>
-                                         <input type="number" disabled class="form-control input-sm" name="" id="">
-                                     </div>
+                                     <span>Berapa halaman ?</span>
                                  </div>
 
-                                 <div class="col-md-12">
-                                     <div class="form-group">
-                                         <span>Deskripsi</span>
-                                         <textarea name="" class="form-control" id=""></textarea>
-                                     </div>
-                                 </div>
-
-                                 <div class="col-md-12">
+                                 <div class="row">
                                      <div class="col-md-6">
                                          <div class="form-group">
-                                             <span>Tgl Ambil</span>
-                                             <input class="form-control" type="date" name="" id="">
+                                             <span>Warna</span>
+                                             <input type="number" placeholder="berapa?" class="form-control input-sm" name="warna" id="warna">
                                          </div>
+                                         <span id="msgwarna"></span>
                                      </div>
                                      <div class="col-md-6">
                                          <div class="form-group">
-                                             <span>Tgl Ambil</span>
-                                             <input class="form-control" type="time" name="" id="">
+                                             <span>Hitam Putih</span>
+                                             <input type="number" placeholder="berapa?" class="form-control input-sm" name="hitamputih" id="hitamputih">
                                          </div>
                                      </div>
+                                     <span id="msghitamputih"></span>
+                                 </div>
+
+                                 <div class="row">
+                                     <div class="col-md-6">
+                                         <div class="form-group">
+                                             <span>Tgl Ambil</span>
+                                             <input class="form-control" type="date" name="tglambil" id="tglambil">
+                                         </div>
+                                         <span id="msgtglambil"></span>
+                                     </div>
+                                     <div class="col-md-6">
+                                         <div class="form-group">
+                                             <span>Jam Ambil</span>
+                                             <input class="form-control" type="time" name="jamambil" id="jamambil">
+                                         </div>
+                                         <span id="msgjamambil"></span>
+                                     </div>
+
+                                 </div>
+                                 <div class="row">
 
                                      <div class="col-md-6">
                                          <div class="form-group">
                                              <span>File Printmu</span>
                                              <input type="file" name="" id="">
                                          </div>
+                                         <span id="msgfile"></span>
                                      </div>
                                  </div>
+
+                             </div>
+                             <div class="col-md-5">
+                                 <div class="col-md-12">
+                                     <div class="form-group">
+                                         <span>Harga</span>
+                                         <h2 style="font-size:16pt">Rp.5000</h2>
+                                     </div>
+                                 </div>
+
+                                 <div class="col-md-12">
+                                     <div class="form-group">
+                                         <span>Pakai jasa pengiriman hanya Rp.2000 loh</span>
+                                         <div class="col-md-6">
+                                             <span>Ambil sendiri</span>
+                                             <input type="radio" checked class="form-control" name="ambilsendiri" id="ambilsendiri" value="0">
+                                         </div>
+                                         <div class="col-md-6">
+                                             <span>Kirim</span>
+                                             <input type="radio" class="form-control" name="ambilsendiri" id="ambilsendiri" value="1">
+                                         </div>
+                                     </div>
+                                 </div>
+
+                                 <div class="col-md-12">
+                                     <div class="form-group">
+                                         <span>Deskripsi</span>
+                                         <textarea name="desc" class="form-control" id="desc"></textarea>
+                                     </div>
+                                     <span id="msgdesc"></span>
+                                 </div>
+
+
 
 
                              </div>
 
                              <div class="col-md-12 well well-sm">
-                                 <a href="javascript(0)" class="btn btn-success btn-lg">
-                                     <span class="fa fa-send"></span> Submit Order</a>
+                                 <input type="hidden" id="setidkategori">
+                                 <button type="submit" class="btn btn-success btn-lg">
+                                     <span class="fa fa-send"></span> Submit Order</button>
                              </div>
                          </form>
 
