@@ -164,6 +164,11 @@
                  <div class="modal-header">
                      <button type="button" class="close" data-dismiss="modal">&times;</button>
                      <h3 class="modal-title" id="juduldetilpesan"></h3>
+                     <span style="display:none" id="idkategori"></span>
+                     <span style="display:none" id="namakategori"></span>
+                     <span style="display:none" id="hargaBW"></span>
+                     <span style="display:none" id="hargaColor"></span>
+                     <span style="display:none" id="hargajilid"></span>
                  </div>
                  <div class="modal-body">
                      <div class="row">
@@ -186,22 +191,30 @@
                                  </div>
 
                                  <div class="row">
-                                     <div class="col-md-6">
+                                     <div class="col-md-4">
                                          <div class="form-group">
                                              <span>Warna</span>
                                              <input type="number" placeholder="berapa?" class="form-control input-sm" name="warna" id="warna">
                                          </div>
                                          <span id="msgwarna"></span>
                                      </div>
-                                     <div class="col-md-6">
+                                     <div class="col-md-4">
                                          <div class="form-group">
                                              <span>Hitam Putih</span>
                                              <input type="number" placeholder="berapa?" class="form-control input-sm" name="hitamputih" id="hitamputih">
                                          </div>
                                      </div>
                                      <span id="msghitamputih"></span>
-                                 </div>
 
+
+                                     <div class="col-md-4">
+                                         <div class="form-group">
+                                             <span>Jilid</span>
+                                             <input type="number" placeholder="berapa rangkap ?" class="form-control input-sm" name="jilid" id="jilid">
+                                         </div>
+                                     </div>
+                                     <span id="msghitamputih"></span>
+                                 </div>
                                  <div class="row">
                                      <div class="col-md-6">
                                          <div class="form-group">
@@ -224,7 +237,7 @@
                                      <div class="col-md-6">
                                          <div class="form-group">
                                              <span>File Printmu</span>
-                                             <input type="file" name="" id="">
+                                             <input type="file" name="fileprint" id="fileprint">
                                          </div>
                                          <span id="msgfile"></span>
                                      </div>
@@ -268,7 +281,7 @@
 
                              <div class="col-md-12 well well-sm">
                                  <input type="hidden" id="setidkategori">
-                                 <button type="submit" class="btn btn-success btn-lg">
+                                 <button type="submit" class="btn btn-success btn-md">
                                      <span class="fa fa-send"></span> Submit Order</button>
                              </div>
                          </form>
@@ -278,9 +291,7 @@
                      <!-- End About area -->
 
                  </div>
-                 <div class="modal-footer">
-                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                 </div>
+
              </div>
          </div>
      </div>

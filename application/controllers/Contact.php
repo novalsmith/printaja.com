@@ -90,12 +90,7 @@ class Contact extends CI_Controller
     public function JsonKategori($id)
     {
 
-        $data = $this->db->query('select 
-                                idkategori, 
-                                nama_kategori,
-                                 status,hargaBW,
-                                 hargaColor,hargajilid 
-                                 from kategori where idkategori = ' . $id . '  ')->result();
+        $data = $this->db->query('select   *  from kategori where idkategori = ' . $id . '  ')->result();
 
         echo json_encode($data);
     }

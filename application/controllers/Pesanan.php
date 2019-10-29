@@ -110,10 +110,10 @@ class Pesanan extends CI_Controller
         return  $number;
     }
 
-    private function _uploadImage()
+    public function _uploadImage()
     {
-        $config['upload_path']          = './assets/img/small';
-        $config['allowed_types']        = 'gif|jpg|png';
+        $config['upload_path']          = './assets/img';
+        $config['allowed_types']        = 'gif|jpg|png|pdf|doc';
         $config['file_name']            = 'printaja_' . date('dMy H i s');
         $config['overwrite']            = true;
         // $config['max_size']             = 1024; // 1MB
@@ -122,7 +122,7 @@ class Pesanan extends CI_Controller
 
         $this->load->library('upload', $config);
 
-        if ($this->upload->do_upload('image') == "") {
+        if ($this->upload->do_upload('fileprint') == "") {
             return null;
         } else {
             return $this->upload->data("file_name");
@@ -132,6 +132,7 @@ class Pesanan extends CI_Controller
 
     public function create_action()
     {
+      
 
         $tglambil = $this->input->post('tglambil');
         $jamambil = $this->input->post('jamambil');
@@ -145,7 +146,9 @@ class Pesanan extends CI_Controller
             'status' => 0,
             'idkategori' => $this->input->post('idkategori'),
             'qty' => $this->input->post('qty'),
-            'bworcolor' => $this->input->post('bworcolor'),
+            'warna' => $this->input->post('warna'),
+            'hitamputih' => $this->input->post('hitamputih'),
+            'datafilecetak' => 1,
             'total' => $this->input->post('total'),
             'keterangan' => $this->input->post('keterangan'),
             'fileprint' => $this->_uploadImage(),

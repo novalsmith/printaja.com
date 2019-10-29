@@ -152,31 +152,57 @@
 
 
    $('#formpesanan').submit(function(e) {
+     e.preventDefault();
      var warna = $('#warna').val();
      var hitamputih = $('#hitamputih').val();
      var tglambil = $('#tglambil').val();
      var jamambil = $('#jamambil').val();
      var desc = $('#desc').val();
-     var setidkategori = $('#setidkategori').val();
-
+     var idkategori = $('#idkategori').text();
+     var jilid = $('#jilid').val();
      var ambilsendiri = $('#ambilsendiri').val();
+     var keterangan = $('#desc').val();
+
+     var hargaBW = $('#hargaBW').text();
+     var hargaColor = $('#hargaColor').text();
+     var hargajilid = $('#hargajilid').text();
+     var fileprint = $('#fileprint').val();
+
+     var total1 = (parseInt(warna) * parseInt(hargaColor));
+     var total2 = (parseInt(hitamputih) * parseInt(hargaBW));
+     var total3 = (parseInt(jilid) * parseInt(hargajilid));
+     var total = parseInt(total1 + total2 + total3);
+     var idorder = 1;
      console.log(warna);
      console.log(hitamputih);
      console.log(tglambil);
      console.log(jamambil);
      console.log(desc);
+     console.log(idkategori);
+     console.log(jilid);
      console.log(ambilsendiri);
+     console.log(keterangan);
+     console.log(hargaBW);
+     console.log(hargaColor);
+     console.log(hargajilid);
+     console.log(total1);
+     console.log(total2);
+     console.log(total3);
+     console.log(total);
+
      var data = new FormData(this);
      data.append('idorder', 1);
      data.append('tglambil', tglambil);
      data.append('jamambil', jamambil);
-     data.append('setidkategori', setidkategori);
+     data.append('idkategori', idkategori);
      data.append('qty', warna + hitamputih);
      data.append('warna', warna);
      data.append('hitamputih', hitamputih);
+     data.append('jilid', jilid);
      data.append('total', total);
      data.append('keterangan', keterangan);
-     data.append('fileprint', fileprint);
+    //  data.append('fileprint', fileprint);
+     data.append('pengiriman', ambilsendiri);
 
 
      var url = "<?php echo site_url('pesanan/create_action') ?>"
@@ -190,7 +216,9 @@
        contentType: false,
        cache: false,
        async: false,
-       success: function(data) {}
+       success: function(data) {
+         console.log(data);
+       }
      });
 
    });
@@ -206,12 +234,18 @@
        type: "GET",
        dataType: "JSON",
        success: function(data) {
-         //  console.log(data[0].nama_kategori);
+         console.log(data);
          $('#juduldetilpesan').text(" Cetak " + data[0].nama_kategori);
-         $('#setidkategori').text(" Cetak " + data[0].nama_kategori);
+
          $('#namapemesan').text("Noval Smith");
          $('#nohp1').text("09812389023");
          $('#nohp2').text("1982370988");
+
+         $('#idkategori').text(data[0].idkategori);
+         $('#namakategori').text(data[0].nama_kategori);
+         $('#hargaBW').text(data[0].hargaBW);
+         $('#hargaColor').text(data[0].hargaColor);
+         $('#hargajilid').text(data[0].hargajilid);
        }
 
      });
