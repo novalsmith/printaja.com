@@ -194,14 +194,14 @@
                                      <div class="col-md-4">
                                          <div class="form-group">
                                              <span>Warna</span>
-                                             <input type="number" placeholder="berapa?" class="form-control input-sm" name="warna" id="warna">
+                                             <input type="number" onkeyup="hitung()" placeholder="berapa?" class="form-control input-sm" name="warna" id="warna">
                                          </div>
                                          <span id="msgwarna"></span>
                                      </div>
                                      <div class="col-md-4">
                                          <div class="form-group">
                                              <span>Hitam Putih</span>
-                                             <input type="number" placeholder="berapa?" class="form-control input-sm" name="hitamputih" id="hitamputih">
+                                             <input type="number" placeholder="berapa?" onkeyup="hitung()" class="form-control input-sm" name="hitamputih" id="hitamputih">
                                          </div>
                                      </div>
                                      <span id="msghitamputih"></span>
@@ -210,10 +210,12 @@
                                      <div class="col-md-4">
                                          <div class="form-group">
                                              <span>Jilid</span>
-                                             <input type="number" placeholder="berapa rangkap ?" class="form-control input-sm" name="jilid" id="jilid">
+                                             <input type="number" placeholder="berapa rangkap ?" class="form-control input-sm" name="jilid" id="jilid" onkeyup="hitung()">
                                          </div>
                                      </div>
                                      <span id="msghitamputih"></span>
+
+                                     <span class="text text-danger" id="error3"></span>
                                  </div>
                                  <div class="row">
                                      <div class="col-md-6">
@@ -248,23 +250,23 @@
                                  <div class="col-md-12">
                                      <div class="form-group">
                                          <span>Harga</span>
-                                         <h2 style="font-size:16pt">Rp.5000</h2>
+                                         <h2 style="font-size:16pt" id="harga"></h2>
+                                         <span id="hargahidden"></span>
                                      </div>
                                  </div>
 
-                                 <div class="col-md-12">
+                                 <!-- <div class="col-md-12">
                                      <div class="form-group">
                                          <span>Pakai jasa pengiriman hanya Rp.2000 loh</span>
-                                         <div class="col-md-6">
-                                             <span>Ambil sendiri</span>
-                                             <input type="radio" checked class="form-control" name="ambilsendiri" id="ambilsendiri" value="0">
-                                         </div>
-                                         <div class="col-md-6">
-                                             <span>Kirim</span>
-                                             <input type="radio" class="form-control" name="ambilsendiri" id="ambilsendiri" value="1">
+                                         <div class="col-md-12">
+                                             <span>Ambil sendiri atau Kirim ?</span>
+                                             <select class="form-control" name="ambilsendiri" id="ambilsendiri">
+                                                 <option value="0">Ambil Sendiri</option>
+                                                 <option value="1">Kirim</option>
+                                             </select>
                                          </div>
                                      </div>
-                                 </div>
+                                 </div> -->
 
                                  <div class="col-md-12">
                                      <div class="form-group">

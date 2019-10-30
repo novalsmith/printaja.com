@@ -10,6 +10,7 @@
 
 
  <!-- JavaScript Libraries -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
  <script src="<?php echo base_url() ?>assetss/lib/jquery/jquery.min.js"></script>
  <script src="<?php echo base_url() ?>assetss/lib/bootstrap/js/bootstrap.min.js"></script>
  <script src="<?php echo base_url() ?>assetss/lib/owlcarousel/owl.carousel.min.js"></script>
@@ -150,9 +151,93 @@
      });
    });
 
+   function hitung() {
+     var hargaBW = $('#hargaBW').text();
+     var hargaColor = $('#hargaColor').text();
+     var hargajilid = $('#hargajilid').text();
+     var ambil = $('#ambilsendiri').val();
+     var tmp = 0;
+     if (ambil == 1) {
+       tmp = 2000;
+     } else {
+       tmp = 0;
+     }
 
+     var hb = parseInt(hargaBW);
+     var hc = parseInt(hargaColor);
+     var hj = parseInt(hargajilid);
+     var ha = parseInt(ambil);
+
+     var arr = $('#warna').val();
+     if (arr == "" || arr == undefined) {
+       arr = 0;
+     }
+     var arr2 = $('#hitamputih').val();
+     if (arr2 == "" || arr2 == undefined) {
+       arr2 = 0;
+     }
+
+     var arr3 = $('#jilid').val();
+     if (arr3 == "" || arr3 == undefined) {
+       arr3 = 0;
+     }
+
+     var hit1 = parseInt(arr * hc);
+     var hit2 = parseInt(arr2 * hb);
+     var hit3 = parseInt(arr3 * hj);
+
+     var hasil = hit1 + hit2 + hit3 + tmp;
+     if (isNaN(hasil)) {
+       $('#harga').text("Rp." + parseInt(hasil).toLocaleString());
+       $('#hargahidden').text(parseInt(hasil));
+     } else {
+
+       $('#harga').text("Rp." + parseInt(hasil).toLocaleString());
+       $('#hargahidden').text(parseInt(hasil));
+       $('#hargahidden').attr("style", "display:none");
+
+     }
+
+
+
+
+   }
+
+
+   $('#ambilsendiri').on('change', function() {
+     var warna = $('#warna').val();
+     var hitamputih = $('#hitamputih').val();
+     var jilid = $('#jilid').val();
+
+     if (warna == "" && hitamputih == "" && jilid == "") {
+       alert("Harus isi salahsatu.\n warna, hitam putih atau jilid ");
+
+
+     } else {
+       var aa = $('#hargahidden').text();
+       var aaparse = parseInt(aa);
+       var bb = $('#ambilsendiri').val();
+
+       var tmp = 0;
+       if (bb == 1) {
+         tmp = 2000;
+       } else {
+         tmp = 0;
+       }
+       $('#harga').text("Rp." + parseInt(aaparse + tmp).toLocaleString());
+
+     }
+
+   });
+
+
+   // console.log(new hasil.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(number));
    $('#formpesanan').submit(function(e) {
      e.preventDefault();
+
+     var harga = $('#hargahidden').val();
+
+
      var warna = $('#warna').val();
      var hitamputih = $('#hitamputih').val();
      var tglambil = $('#tglambil').val();
@@ -161,7 +246,9 @@
      var idkategori = $('#idkategori').text();
      var jilid = $('#jilid').val();
      var ambilsendiri = $('#ambilsendiri').val();
+     console.log(ambilsendiri);
      var keterangan = $('#desc').val();
+
 
      var hargaBW = $('#hargaBW').text();
      var hargaColor = $('#hargaColor').text();
@@ -173,22 +260,74 @@
      var total3 = (parseInt(jilid) * parseInt(hargajilid));
      var total = parseInt(total1 + total2 + total3);
      var idorder = 1;
-     console.log(warna);
-     console.log(hitamputih);
-     console.log(tglambil);
-     console.log(jamambil);
-     console.log(desc);
-     console.log(idkategori);
-     console.log(jilid);
-     console.log(ambilsendiri);
-     console.log(keterangan);
-     console.log(hargaBW);
-     console.log(hargaColor);
-     console.log(hargajilid);
-     console.log(total1);
-     console.log(total2);
-     console.log(total3);
-     console.log(total);
+
+     if (warna == "" && hitamputih == "" && jilid == "") {
+       alert("Harus isi salahsatu.\n warna, hitam putih atau jilid ");
+
+     } else if (tglambil == "") {
+       alert("Tgl ambil harus diisi");
+
+     } else if (jamambil == "") {
+       alert("Jam ambil harus diisi");
+     } else if (fileprint == "") {
+       alert("Anda belum Pilih File yang akan di cetak \n Excel, Pdf, Word, Gambar dll");
+     } else if (keterangan == "") {
+       alert("Keterangan harus di isi");
+     }
+
+
+
+     const swalWithBootstrapButtons = Swal.mixin({
+       customClass: {
+         confirmButton: 'btn btn-success',
+         cancelButton: 'btn btn-danger'
+       },
+       buttonsStyling: false
+     })
+     swalWithBootstrapButtons.fire({
+       title: 'Are you sure?',
+       text: "You won't be able to revert this!",
+       type: 'warning',
+       showCancelButton: true,
+       confirmButtonText: 'Yes, delete it!',
+       cancelButtonText: 'No, cancel!',
+       reverseButtons: true
+     }).then((result) => {
+       if (result.value) {
+         swalWithBootstrapButtons.fire(
+           'Deleted!',
+           'Your file has been deleted.',
+           'success'
+         )
+       } else if (
+         /* Read more about handling dismissals below */
+         result.dismiss === Swal.DismissReason.cancel
+       ) {
+         swalWithBootstrapButtons.fire(
+           'Cancelled',
+           'Your imaginary file is safe :)',
+           'error'
+         )
+       }
+     })
+     //  swal({
+     //      title: "Anda yakin ? " + harga + " ",
+     //      text: "Hasil cetak ini akan di antar ke tempatmu dengan biaya tambahan hanya Rp.2.000",
+     //      type: "warning",
+     //      showCancelButton: true,
+     //      confirmButtonClass: "btn-danger",
+     //      confirmButtonText: "kirim",
+     //      cancelButtonText: "Ambil sendiri",
+     //      closeOnConfirm: false,
+     //      closeOnCancel: false
+     //    },
+     //    function(isConfirm) {
+     //      if (isConfirm) {
+     //        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+     //      } else {
+     //        swal("Cancelled", "Your imaginary file is safe :)", "error");
+     //      }
+     //    });
 
      var data = new FormData(this);
      data.append('idorder', 1);
@@ -201,7 +340,7 @@
      data.append('jilid', jilid);
      data.append('total', total);
      data.append('keterangan', keterangan);
-    //  data.append('fileprint', fileprint);
+     //  data.append('fileprint', fileprint);
      data.append('pengiriman', ambilsendiri);
 
 
