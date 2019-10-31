@@ -72,7 +72,7 @@ class Contact extends CI_Controller
     {
 
 
-        $this->db->where('idpesanan', $id);
+        $this->db->where('idpesananduplicate', $id);
         $data = $this->db->get('pesanan');
         if ($data->num_rows() > 0) {
 
@@ -85,14 +85,6 @@ class Contact extends CI_Controller
         }
         // echo json_encode(array('status' => $data->status));
 
-    }
-
-    public function JsonKategori($id)
-    {
-
-        $data = $this->db->query('select   *  from kategori where idkategori = ' . $id . '  ')->result();
-
-        echo json_encode($data);
     }
 
 
@@ -110,6 +102,10 @@ class Contact extends CI_Controller
 
         echo json_encode($data);
     }
+
+  
+
+
 
     public function create()
     {

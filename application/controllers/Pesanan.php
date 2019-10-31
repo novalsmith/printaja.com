@@ -11,6 +11,8 @@ class Pesanan extends CI_Controller
         $this->load->model('Pesanan_model');
         $this->load->library('form_validation');
         $this->load->library('datatables');
+
+     
     }
 
     public function index()
@@ -30,6 +32,23 @@ class Pesanan extends CI_Controller
         );
 
         $this->load->view('template', $data);
+    }
+
+    public function registlogin(){
+        if ($this->session->userdata('email') == "") {
+            echo json_encode(array('result' => "true"));
+        }else{
+            echo json_encode(array('result' => "false"));
+        }
+      
+    }
+
+    public function JsonKategori($id)
+    {
+       
+        $data = $this->db->query('select   *  from kategori where idkategori = ' . $id . '  ')->result();
+
+        echo json_encode($data);
     }
 
     public function json()
@@ -105,7 +124,20 @@ class Pesanan extends CI_Controller
         if($data->getmax < 1){
             $number = "Printaja1".date("My");
         }else{
-            $number = "Printaja".$data->getmax.date("My");
+            $number = "Printaja".$data->getmax.date("my");
+        }
+        return  $number;
+    }
+
+    private function AutonumberPrintShow()
+    {
+        $number = "";
+        $data = $this->db->query("select max(idpesanan-1) as getmaxshow from pesanan")->row();
+
+        if ($data->getmaxshow < 1) {
+            $number = "Printaja1" . date("My");
+        } else {
+            $number = "Printaja" . $data->getmaxshow . date("my");
         }
         return  $number;
     }
@@ -113,7 +145,7 @@ class Pesanan extends CI_Controller
     public function _uploadImage()
     {
         $config['upload_path']          = './assets/img';
-        $config['allowed_types']        = 'gif|jpg|png|pdf|doc';
+        $config['allowed_types']        = '*';
         $config['file_name']            = 'printaja_' . date('dMy H i s');
         $config['overwrite']            = true;
         // $config['max_size']             = 1024; // 1MB
@@ -159,11 +191,8 @@ class Pesanan extends CI_Controller
         // unlink('./assets/img/thumb/'. $gbr['file_name']);
 
         $this->db->insert('pesanan',$simpan); //kirim value ke model m_upload
-        echo json_encode(array(
-            'autonumber' => $this->AutonumberPrint(),
-            'pesan' => "Berhasil Tersimpan",
-            'status' => TRUE
-        ));
+
+        echo json_encode(array('idpesananduplicate'=> $this->AutonumberPrintShow()));
     }
 
     public function excel()
