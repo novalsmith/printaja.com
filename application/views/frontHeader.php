@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>eBusiness Bootstrap Template</title>
+    <title>PrintAja.com</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -55,6 +55,8 @@
 ::-webkit-scrollbar-thumb {
     background: #FF0000;
 }
+
+
 
 
         table {
@@ -688,10 +690,17 @@
 
         }
 
-        @media screen and (max-width: 600px) {
+        @media only screen and (max-width: 990px) and (min-width: 250px)  {
             .slideshow li div h3 {
                 font-size: 50px
             }
+
+      
+.modal-body{
+    max-height: calc(120vh - 220px);
+    overflow-y: auto;
+    
+}
 
         }
     </style>

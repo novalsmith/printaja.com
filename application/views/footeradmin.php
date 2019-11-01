@@ -636,32 +636,18 @@
  								// console.log(key + ": " + value["name"]);
  								kolom += '<tr>';
  								kolom += '<td>' + value["nama_kategori"] + '</td>';
+ 								kolom += '<td>' + value["warna"] + '</td>';
+ 								kolom += '<td>' + value["hitamputih"] + '</td>';
+ 								kolom += '<td>' + value["datafilecetak"] + '</td>';
+ 								kolom += '<td>' + value["pengiriman"] + '</td>';
 
- 								if (value['bworcolor'] == 1) {
- 									kolom += '<td>Hitam Putih</td>';
- 								} else if (value['bworcolor'] == 2) {
- 									kolom += '<td>Warna</td>';
+
+ 								if (value["pengiriman"] == 1) {
+ 									kolom += '<td id="alltotal">Rp.' + parseInt((value["total"] + 2000)) + '</td>';
  								} else {
- 									kolom += '<td>Jilid</td>';
+ 									kolom += '<td id="alltotal">Rp.' + parseInt(value["total"]) + '</td>';
  								}
 
-
-
- 								if (value['bworcolor'] == 1) {
- 									kolom += '<td>Rp.' + value["hargaBW"] + '</td>';
- 									totals = value['hargaBW'] * value['qty']
- 								} else if (value['bworcolor'] == 2) {
-
- 									kolom += '<td>Rp.' + value["hargaColor"] + '</td>';
- 									totals = value['hargaColor'] * value['qty']
- 								} else {
-
- 									kolom += '<td>Rp.' + value["hargajilid"] + '</td>';
- 									totals = value['hargajilid'] * value['qty']
- 								}
-
- 								kolom += '<td>' + value["qty"] + '</td>';
- 								kolom += '<td id="alltotal">Rp.' + totals + '</td>';
 
  								kolom += '</tr>';
 

@@ -55,36 +55,33 @@ class Pesanan_model extends CI_Model
         $this->db->select('
         idpesanan,name,phone,email,dateorder,datefinish,idpesananduplicate,
         pesanan.status,nama_kategori,hargaBW,hargaColor,hargajilid,
-        qty,total,bworcolor, datafilecetak,keterangan, fileprint,phone
+        qty,total,bworcolor, datafilecetak,keterangan, fileprint,phone,warna, hitamputih,pengiriman
         ');
 
         $this->db->from('pesanan');
         $this->db->join('kategori', 'kategori.idkategori = pesanan.idkategori', 'left');
         $this->db->join('orders', 'orders.idorder = pesanan.idorder', 'left');
+        // $this->db->where("pesanan.status", 0);
+        // $this->db->where("pesanan.status", 1);
         $this->db->where("idpesananduplicate", $id);
+     
+
         return $this->db->get();
     }
 
     function get_all_count($id)
     {
         return   $this->db->query('
-        select sum(ok.total) as totalsemua from (
+        select sum(ok.totals) as totalsemua from (
 SELECT 
   idpesanan,name,phone,email,dateorder,datefinish,
         pesanan.status,nama_kategori,hargaBW,hargaColor,hargajilid,
-        qty,  (
-    CASE 
-        WHEN  bworcolor =1  THEN hargaBW*qty
-        WHEN bworcolor =2  THEN hargaColor*qty
-        WHEN bworcolor =1  THEN hargajilid*qty
-       
-        ELSE 1
-    END) AS total,
+        qty,  IF(pesanan.pengiriman = 1,pesanan.total +2000,pesanan.total) AS totals,
     
-        bworcolor, datafilecetak,keterangan, fileprint
+        bworcolor, pengiriman,keterangan, fileprint
  FROM pesanan LEFT JOIN kategori ON kategori.idkategori = pesanan.idkategori 
  LEFT JOIN orders ON orders.idorder = pesanan.idorder 
- where idpesananduplicate = ' . $id . ' )  ok
+ where   idpesananduplicate = "' . $id . '" )  ok
         ');
     }
 

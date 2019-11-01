@@ -652,10 +652,12 @@
                          <div id="tablepesanandetil"></div>
                          <table class="table table-hover" id="table">
                              <th>Kategori</th>
-                             <th>Type Warna</th>
-                             <th>Harga</th>
+                             <th>Warna</th>
+                             <th>Hitamputih</th>
+                             <th>Jlid</th>
+                             <th>Kirim</th>
 
-                             <th>Qty</th>
+                             <!-- <th>Qty</th> -->
                              <th>Total</th>
                          </table>
 

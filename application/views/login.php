@@ -11,7 +11,7 @@
 <!-- END SIDEBAR TOGGLER BUTTON -->
 <!-- BEGIN LOGO -->
 <div class="logo">
-	<h1 class="text text-success">PrintMu</h1>
+	<h1 class="text text-success">PrintAja.com</h1>
 </div>
 <!-- END LOGO -->
 <!-- BEGIN LOGIN -->
@@ -72,7 +72,7 @@
                     	 if(isValidEmailAddress(email)){
                             $("#errorEmail").text("");
                              }else{
-                	 $("#errorEmail").text("Harus email, contoh : printmu@gmail.com ");
+                	 $("#errorEmail").text("Harus email, contoh : printmuaja@gmail.com ");
                 }
                     }
                

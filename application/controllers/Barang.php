@@ -10,7 +10,10 @@ class Barang extends CI_Controller
         parent::__construct();
         $this->load->model('Barang_model');
         $this->load->library('form_validation');        
-	$this->load->library('datatables');
+    $this->load->library('datatables');
+    if ($this->session->userdata('email') == "") {
+        redirect('auth');
+    }
     }
 
     public function index()

@@ -7,7 +7,7 @@
 			<!-- BEGIN LOGO -->
 			<div class="page-logo">
 
-				<a style="text-decoration: none; font-size: 25pt; font-weight: bold;" class="text text-success" href="<?php echo base_url() . 'Welcome' ?>">PrintMu</a>
+				<a style="text-decoration: none; font-size: 25pt; font-weight: bold;" class="text text-success" href="<?php echo base_url() . 'Welcome' ?>">Printmuaja</a>
 
 			</div>
 			<!-- END LOGO -->

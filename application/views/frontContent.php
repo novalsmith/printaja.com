@@ -19,7 +19,7 @@
                              </button>
                              <!-- Brand -->
                              <a class="navbar-brand page-scroll sticky-logo" href="index.html">
-                                 <h1> <span>print</span>Mu</h1>
+                                 <h1> <span>printmu</span>Aja</h1>
                                  <!-- Uncomment below if you prefer to use an image logo -->
                                  <!-- <img src="img/logo.png" alt="" title=""> -->
                              </a>
@@ -29,9 +29,9 @@
                              <ul class="nav navbar-nav navbar-right mr-auto">
 
 
-                                 <li>
+                                 <!-- <li>
                                      <a class="page-scroll" href="#home">Home</a>
-                                 </li>
+                                 </li> -->
 
                                  <li id="printonline">
                                      <a class="label label-primary" href="#" data-toggle="modal" data-target="#myModalPrint"> Print
@@ -54,18 +54,42 @@
                                      <a class="page-scroll" href="#" data-toggle="modal" data-target="#myModalfaq">Bantuan ?</a>
                                  </li>
 
-                                 <li class="nav-item dropdown ">
+<?php
+ 
+if ($this->session->userdata('email') == "") { ?>
+         
+      <?php  }else{ ?>
+        <li class="nav-item dropdown ">
                                      <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                          <span class="text text-primary label label-info">
-                                             <i class="fa fa-user"></i> Noval Smith
+                                             <i class="fa fa-user"></i> <?php echo $this->session->userdata('name') ?>
                                          </span>
                                      </a>
-                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                         <a class="dropdown-item" href="#">Ubah Akun</a>
-                                         <div class="dropdown-divider"></div>
-                                         <a class="dropdown-item" href="#">Logout</a>
-                                     </div>
+                                  
+                                    
+
+                                     <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown"> -->
+                                     <ul class="dropdown-menu nav navbar-nav navbar-right mr-auto">
+
+
+<li>
+<a class="dropdown-item" href="javascript:void(0)" onclick="ubahakun()">Ubah Akun</a>
+
+</li>
+<li>
+<a class="dropdown-item" href="javascript:void(0)" style="margin-top:10px;" onclick="logout()">Logout</a>
+
+</li>
+</ul>
+
+                                    
+                                    
+                                     <!-- </div> -->
                                  </li>
+           
+      <?php  } ?>
+                                 
+ 
                              </ul>
 
                          </div>
@@ -112,9 +136,12 @@
          <div class="row">
 
              <div id="overlay">
-                 <span>Berkualitas, Cepat, Hemat <br />
-                     <a class="ready-btn right-btn page-scroll" href="#services">Order Sekarang</a>
-                     <a class="ready-btn page-scroll" href="#about">Kontak Kami</a></span>
+                 <span>Berkualitas, Cepat, Hemat  
+                 
+                     <!-- <a class="ready-btn right-btn" href="javascript:void(0)" id="printonline" data-toggle="modal" data-target="#myModalPrint">Order Sekarang</a>
+                     <a class="ready-btn"   href="javascript:void(0)" id="idcontact" data-toggle="modal" data-target="#myModalContact">Kontak Kami</a> -->
+                     </span>
+                   
 
              </div>
 

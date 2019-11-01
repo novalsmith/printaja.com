@@ -1,8 +1,6 @@
 <?php
-
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
-
 class Pesanan extends CI_Controller
 {
     function __construct()
@@ -11,52 +9,29 @@ class Pesanan extends CI_Controller
         $this->load->model('Pesanan_model');
         $this->load->library('form_validation');
         $this->load->library('datatables');
-
-     
+        if ($this->session->userdata('email') == "") {
+			redirect('auth');
+		}
     }
-
     public function index()
     {
-
         $data = array(
-
             'content'       => 'pesanan/pesanan_list',
             'email'         =>  'novalsmith69@gmail.com',
             // 'breadcrumb' 	=> $breadcrumb,
-
             'judul'          => 'Pesanan',
             'judul_sub'     => 'Daftar Pesanan',
             'judulweb'         => 'Printmu',
             'judul_page'     => 'Pesanan'
-
         );
-
         $this->load->view('template', $data);
     }
-
-    public function registlogin(){
-        if ($this->session->userdata('email') == "") {
-            echo json_encode(array('result' => "true"));
-        }else{
-            echo json_encode(array('result' => "false"));
-        }
-      
-    }
-
-    public function JsonKategori($id)
-    {
-       
-        $data = $this->db->query('select   *  from kategori where idkategori = ' . $id . '  ')->result();
-
-        echo json_encode($data);
-    }
-
+   
     public function json()
     {
         header('Content-Type: application/json');
         echo $this->Pesanan_model->json();
     }
-
     public function jsonPesanan($id)
     {
         // header('Content-Type: application/json');
@@ -79,32 +54,23 @@ class Pesanan extends CI_Controller
         );
         echo  json_encode($array);
     }
-
     public function jsonPesananAll($id)
     {
         // header('Content-Type: application/json');
         $data = $this->Pesanan_model->get_all_All($id)->result();
-
         echo  json_encode($data);
     }
-
     public function jsonPesananCount($id)
     {
         // header('Content-Type: application/json');
         $data = $this->Pesanan_model->get_all_count($id)->row();
-
         echo  json_encode(array('total' => $data->totalsemua));
     }
-
     public function update_status()
     {
         $id     = $this->input->post('idpesanan');
         $status = $this->input->post('status');
-
-
-
         $this->db->where('idpesananduplicate', $id);
-
         $cek = $this->db->update('pesanan',  array('status' => $status));
         $pesan = array(
             'status' => 'sukses',
@@ -116,85 +82,7 @@ class Pesanan extends CI_Controller
             echo json_encode(array('status' => ''));
         }
     }
-
-    private function AutonumberPrint(){
-        $number = "";
-        $data = $this->db->query("select max(idpesanan) as getmax from pesanan")->row();
-       
-        if($data->getmax < 1){
-            $number = "Printaja1".date("My");
-        }else{
-            $number = "Printaja".$data->getmax.date("my");
-        }
-        return  $number;
-    }
-
-    private function AutonumberPrintShow()
-    {
-        $number = "";
-        $data = $this->db->query("select max(idpesanan-1) as getmaxshow from pesanan")->row();
-
-        if ($data->getmaxshow < 1) {
-            $number = "Printaja1" . date("My");
-        } else {
-            $number = "Printaja" . $data->getmaxshow . date("my");
-        }
-        return  $number;
-    }
-
-    public function _uploadImage()
-    {
-        $config['upload_path']          = './assets/img';
-        $config['allowed_types']        = '*';
-        $config['file_name']            = 'printaja_' . date('dMy H i s');
-        $config['overwrite']            = true;
-        // $config['max_size']             = 1024; // 1MB
-        // $config['max_width']            = 1024;
-        // $config['max_height']           = 768;
-
-        $this->load->library('upload', $config);
-
-        if ($this->upload->do_upload('fileprint') == "") {
-            return null;
-        } else {
-            return $this->upload->data("file_name");
-        }
-    }
-
-
-    public function create_action()
-    {
-      
-
-        $tglambil = $this->input->post('tglambil');
-        $jamambil = $this->input->post('jamambil');
-
-
-        $simpan = array(
-            'idpesananduplicate' => $this->AutonumberPrint(),
-            'idorder' => $this->input->post('idorder'),
-            'dateorder' => $tglambil." ".$jamambil,
-            // 'datefinish' => ,
-            'status' => 0,
-            'idkategori' => $this->input->post('idkategori'),
-            'qty' => $this->input->post('qty'),
-            'warna' => $this->input->post('warna'),
-            'hitamputih' => $this->input->post('hitamputih'),
-            'datafilecetak' => 1,
-            'total' => $this->input->post('total'),
-            'keterangan' => $this->input->post('keterangan'),
-            'fileprint' => $this->_uploadImage(),
-            
-
-           
-        );
-        // unlink('./assets/img/thumb/'. $gbr['file_name']);
-
-        $this->db->insert('pesanan',$simpan); //kirim value ke model m_upload
-
-        echo json_encode(array('idpesananduplicate'=> $this->AutonumberPrintShow()));
-    }
-
+   
     public function excel()
     {
         $this->load->helper('exportexcel');
@@ -212,9 +100,7 @@ class Pesanan extends CI_Controller
         header("Content-Type: application/download");
         header("Content-Disposition: attachment;filename=" . $namaFile . "");
         header("Content-Transfer-Encoding: binary ");
-
         xlsBOF();
-
         $kolomhead = 0;
         xlsWriteLabel($tablehead, $kolomhead++, "No");
         xlsWriteLabel($tablehead, $kolomhead++, "Idorder");
@@ -228,10 +114,8 @@ class Pesanan extends CI_Controller
         xlsWriteLabel($tablehead, $kolomhead++, "Total");
         xlsWriteLabel($tablehead, $kolomhead++, "Keterangan");
         xlsWriteLabel($tablehead, $kolomhead++, "Fileprint");
-
         foreach ($this->Pesanan_model->get_all() as $data) {
             $kolombody = 0;
-
             //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
             xlsWriteNumber($tablebody, $kolombody++, $nourut);
             xlsWriteNumber($tablebody, $kolombody++, $data->idorder);
@@ -245,29 +129,23 @@ class Pesanan extends CI_Controller
             xlsWriteNumber($tablebody, $kolombody++, $data->total);
             xlsWriteLabel($tablebody, $kolombody++, $data->keterangan);
             xlsWriteLabel($tablebody, $kolombody++, $data->fileprint);
-
             $tablebody++;
             $nourut++;
         }
-
         xlsEOF();
         exit();
     }
-
     public function word()
     {
         header("Content-type: application/vnd.ms-word");
         header("Content-Disposition: attachment;Filename=pesanan.doc");
-
         $data = array(
             'pesanan_data' => $this->Pesanan_model->get_all(),
             'start' => 0
         );
-
         $this->load->view('pesanan/pesanan_doc', $data);
     }
 }
-
 /* End of file Pesanan.php */
 /* Location: ./application/controllers/Pesanan.php */
 /* Please DO NOT modify this information : */
